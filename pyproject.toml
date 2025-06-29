@@ -1,0 +1,37 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "mcp-server-eol"
+version = "0.1.0"
+description = "MCP server for endoflife.date API"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "httpx>=0.24.0",
+    "pydantic>=2.0.0"
+]
+
+[project.scripts]
+mcp-server-eol = "mcp_server_eol.server:main"
+
+[project.urls]
+Homepage = "https://github.com/Coolomina/mcp-server-eol"
+Repository = "https://github.com/Coolomina/mcp-server-eol"
+
+[tool.pdm]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+]

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "endoflife": {
+      "command": "python",
+      "args": ["-m", "mcp_server_eol.server"],
+      "cwd": "/app"
+    }
+  }
+}

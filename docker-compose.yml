@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mcp-server-eol:
+    build: .
+    image: mcp-server-eol:latest
+    container_name: mcp-server-eol
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    
+    # For stdio mode (default)
+    stdin_open: true
+    tty: true
+    
+    # For HTTP mode (if you want to expose HTTP endpoint)
+    # ports:
+    #   - "8000:8000"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import src.mcp_server_eol.client; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Add a test service to verify the MCP server
+  mcp-test:
+    build: .
+    image: mcp-server-eol:latest
+    container_name: mcp-server-eol-test
+    depends_on:
+      - mcp-server-eol
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["python", "simple_test.py"]
+    profiles:
+      - test
